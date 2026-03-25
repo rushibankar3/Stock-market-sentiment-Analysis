@@ -1,12 +1,22 @@
 # Stock Market Sentiment Analysis
 
-This project performs stock market prediction using sentiment analysis on Twitter data combined with historical stock prices from Yahoo Finance. It utilizes machine learning models including LSTM and GRU networks to forecast stock prices based on sentiment scores derived from tweets.
+This project performs comprehensive stock market sentiment analysis by combining Twitter data with historical stock prices from Yahoo Finance. It analyzes tweet sentiment using advanced time-based filtering and correlates sentiment patterns with stock performance metrics.
+
+## Features
+
+- **Advanced Sentiment Analysis**: Uses NLTK's VADER sentiment analyzer to extract compound, positive, negative, and neutral sentiment scores from tweets
+- **Time-Based Tweet Filtering**: Separates tweets into pre-market (before 5:30 AM EST) and intraday (5:30 AM - 12:30 PM EST) periods
+- **Sentiment Aggregation**: Computes statistical measures (mean, min, max, percentiles) for sentiment scores by stock and date
+- **Correlation Analysis**: Analyzes relationships between sentiment metrics and stock price movements
+- **Interactive Visualizations**: Includes heatmaps, time series plots, and statistical visualizations
+- **Multi-Stock Analysis**: Supports analysis across multiple stocks (TSLA, MSFT, AAPL, GOOG, etc.)
 
 ## Files
 
-- `stock_prediction.ipynb`: Jupyter notebook containing the complete analysis and prediction pipeline
-- `stock_tweets.csv`: Dataset containing Twitter posts related to stocks
-- `stock_yfinance_data.csv`: Historical stock price data from Yahoo Finance
+- `stock_prediction.ipynb`: Complete Jupyter notebook with data processing, sentiment analysis, and visualization
+- `stock_tweets.csv`: Twitter dataset with 80,793 tweets across multiple stocks
+- `stock_yfinance_data.csv`: Historical stock price data (6,300 records) from Yahoo Finance
+- `README.md`: Project documentation
 
 ## Requirements
 
@@ -16,20 +26,28 @@ This project performs stock market prediction using sentiment analysis on Twitte
   - numpy
   - pandas
   - matplotlib
+  - seaborn
   - tensorflow
   - scikit-learn
   - nltk
   - plotly
   - tqdm
   - statsmodels
+  - unicodedata
 
 ## Installation
 
-1. Clone this repository
-2. Install the required packages:
+1. Clone this repository:
    ```bash
-   pip install numpy pandas matplotlib tensorflow scikit-learn nltk plotly tqdm statsmodels
+   git clone https://github.com/rushibankar3/Stock-market-sentiment-Analysis.git
+   cd Stock-market-sentiment-Analysis
    ```
+
+2. Install required packages:
+   ```bash
+   pip install numpy pandas matplotlib seaborn tensorflow scikit-learn nltk plotly tqdm statsmodels
+   ```
+
 3. Download NLTK data:
    ```python
    import nltk
@@ -38,22 +56,80 @@ This project performs stock market prediction using sentiment analysis on Twitte
 
 ## Usage
 
-1. Open `stock_prediction.ipynb` in Jupyter Notebook
-2. Run the cells in order to:
-   - Load and preprocess tweet data
-   - Perform sentiment analysis using VADER
-   - Load stock price data
-   - Train machine learning models (LSTM/GRU)
-   - Make predictions and visualize results
+1. Open the Jupyter notebook:
+   ```bash
+   jupyter notebook stock_prediction.ipynb
+   ```
+
+2. Run the analysis pipeline:
+   - **Data Loading**: Import and explore tweet and stock price datasets
+   - **Sentiment Analysis**: Process tweets with VADER sentiment analyzer
+   - **Time-Based Filtering**: Separate tweets by market hours
+   - **Statistical Aggregation**: Compute sentiment metrics by stock and time period
+   - **Data Integration**: Merge sentiment data with stock performance metrics
+   - **Correlation Analysis**: Generate heatmaps showing sentiment-stock relationships
+   - **Visualization**: Create interactive plots and statistical summaries
 
 ## Methodology
 
-1. **Data Collection**: Twitter data and stock prices are collected
-2. **Sentiment Analysis**: Tweets are analyzed for sentiment using NLTK's VADER
-3. **Feature Engineering**: Sentiment scores are combined with technical indicators
-4. **Model Training**: Deep learning models (LSTM/GRU) are trained on the combined features
-5. **Prediction**: Models forecast future stock prices
+### 1. Data Preprocessing
+- Load Twitter data (80K+ tweets) and stock price data
+- Convert timestamps to datetime format with timezone handling
+- Clean and normalize tweet text using Unicode normalization
 
-## Results
+### 2. Sentiment Analysis Pipeline
+- Apply VADER sentiment analysis to extract:
+  - Compound sentiment score (-1 to +1)
+  - Positive, negative, and neutral component scores
+- Process tweets in batches for efficiency
 
-The notebook includes visualizations and performance metrics for the prediction models.
+### 3. Time-Based Analysis
+- **Pre-market tweets**: Before 5:30 AM EST (sentiment before market open)
+- **Intraday tweets**: 5:30 AM - 12:30 PM EST (during market hours)
+- Aggregate sentiment statistics for each time window
+
+### 4. Feature Engineering
+- Calculate percentage changes in stock prices and volume
+- Create lagged sentiment features (previous day sentiment)
+- Generate statistical measures (mean, min, max, quartiles)
+
+### 5. Correlation Analysis
+- Compute correlations between sentiment metrics and stock performance
+- Visualize relationships using seaborn heatmaps
+- Identify predictive sentiment patterns
+
+## Key Findings
+
+The analysis reveals significant correlations between tweet sentiment and stock market performance, particularly:
+- Pre-market sentiment often predicts next-day price movements
+- Intraday sentiment correlates with same-day trading volume
+- Negative sentiment shows stronger correlations than positive sentiment
+- Different stocks show varying sensitivity to sentiment patterns
+
+## Results & Visualizations
+
+The notebook includes:
+- Sentiment distribution plots by stock
+- Time series analysis of sentiment vs. stock prices
+- Correlation heatmaps showing sentiment-stock relationships
+- Statistical summaries and performance metrics
+- Interactive plotly visualizations
+
+## Recent Updates
+
+- ✅ Fixed seaborn import error in correlation analysis
+- ✅ Updated file paths for local execution
+- ✅ Enhanced error handling and data validation
+- ✅ Improved documentation and code comments
+
+## Contributing
+
+Feel free to submit issues, feature requests, or pull requests to improve the analysis.
+
+## License
+
+This project is open source and available under the MIT License.
+
+## Repository
+
+[GitHub Repository](https://github.com/rushibankar3/Stock-market-sentiment-Analysis)
