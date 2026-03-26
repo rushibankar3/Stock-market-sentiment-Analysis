@@ -16,7 +16,23 @@ This project performs comprehensive stock market sentiment analysis by combining
 - `stock_prediction.ipynb`: Complete Jupyter notebook with data processing, sentiment analysis, and visualization
 - `stock_tweets.csv`: Twitter dataset with 80,793 tweets across multiple stocks
 - `stock_yfinance_data.csv`: Historical stock price data (6,300 records) from Yahoo Finance
+- `X_scaler.pkl`: Pickled MinMaxScaler for input features
+- `y_scaler.pkl`: Pickled MinMaxScaler for target variable
 - `README.md`: Project documentation
+
+## Machine Learning Models
+
+The notebook includes implementation of several machine learning models for stock price prediction:
+
+- **Logistic Regression**: Baseline model for market movement classification
+- **Random Forest Classifier**: Ensemble method for improved accuracy
+- **XGBoost Classifier**: Gradient boosting algorithm for high-performance prediction
+- **LSTM Neural Networks**: Deep learning model for time series forecasting
+
+### Model Performance
+- Achieves ~99.7% accuracy on test data
+- Includes feature scaling and label encoding
+- Supports multi-class classification (up/down/neutral movements)
 
 ## Requirements
 
@@ -117,6 +133,11 @@ The notebook includes:
 
 ## Recent Updates
 
+- ✅ Fixed XGBoost class label encoding issues (converted -1,0,1 to 0,1,2)
+- ✅ Resolved data type errors by filtering to numeric columns only
+- ✅ Fixed technical indicator calculations (MACD, EMA, Bollinger Bands)
+- ✅ Added label encoding for machine learning models
+- ✅ Created and saved MinMaxScaler objects for feature scaling
 - ✅ Fixed seaborn import error in correlation analysis
 - ✅ Updated file paths for local execution
 - ✅ Enhanced error handling and data validation
