@@ -1,156 +1,183 @@
 # Stock Market Sentiment Analysis
 
-This project performs comprehensive stock market sentiment analysis by combining Twitter data with historical stock prices from Yahoo Finance. It analyzes tweet sentiment using advanced time-based filtering and correlates sentiment patterns with stock performance metrics.
+Stock Market Sentiment Analysis is an end-to-end project that combines Twitter sentiment signals with historical market data to analyze how public opinion around stocks aligns with price movement.
 
-## Features
+The repository includes:
+- A full analysis and model development notebook (`stock_prediction.ipynb`)
+- A Streamlit web app (`streamlit_app.py`) for interactive tweet sentiment prediction
+- Supporting datasets and scalers used during experimentation
 
-- **Advanced Sentiment Analysis**: Uses NLTK's VADER sentiment analyzer to extract compound, positive, negative, and neutral sentiment scores from tweets
-- **Time-Based Tweet Filtering**: Separates tweets into pre-market (before 5:30 AM EST) and intraday (5:30 AM - 12:30 PM EST) periods
-- **Sentiment Aggregation**: Computes statistical measures (mean, min, max, percentiles) for sentiment scores by stock and date
-- **Correlation Analysis**: Analyzes relationships between sentiment metrics and stock price movements
-- **Interactive Visualizations**: Includes heatmaps, time series plots, and statistical visualizations
-- **Multi-Stock Analysis**: Supports analysis across multiple stocks (TSLA, MSFT, AAPL, GOOG, etc.)
+## Project Objectives
 
-## Files
+- Extract sentiment from stock-related tweets using VADER (NLTK)
+- Explore sentiment patterns by stock and date
+- Join sentiment with Yahoo Finance market data
+- Engineer predictive features for downstream ML models
+- Provide an interactive Streamlit interface for quick sentiment checks
 
-- `stock_prediction.ipynb`: Complete Jupyter notebook with data processing, sentiment analysis, and visualization
-- `stock_tweets.csv`: Twitter dataset with 80,793 tweets across multiple stocks
-- `stock_yfinance_data.csv`: Historical stock price data (6,300 records) from Yahoo Finance
-- `X_scaler.pkl`: Pickled MinMaxScaler for input features
-- `y_scaler.pkl`: Pickled MinMaxScaler for target variable
-- `README.md`: Project documentation
+## Tech Stack
 
-## Machine Learning Models
+- Python
+- Pandas, NumPy
+- NLTK (VADER)
+- Scikit-learn
+- TensorFlow / Keras
+- Plotly, Matplotlib, Seaborn
+- Streamlit
 
-The notebook includes implementation of several machine learning models for stock price prediction:
+## Repository Structure
 
-- **Logistic Regression**: Baseline model for market movement classification
-- **Random Forest Classifier**: Ensemble method for improved accuracy
-- **XGBoost Classifier**: Gradient boosting algorithm for high-performance prediction
-- **LSTM Neural Networks**: Deep learning model for time series forecasting
+```text
+Stock-market-sentiment-Analysis/
+├── README.md
+├── requirements.txt
+├── streamlit_app.py
+├── stock_prediction.ipynb
+├── stock_tweets.csv
+├── stock_yfinance_data.csv
+├── X_scaler.pkl
+├── y_scaler.pkl
+└── models_gan/
+```
 
-### Model Performance
-- Achieves ~99.7% accuracy on test data
-- Includes feature scaling and label encoding
-- Supports multi-class classification (up/down/neutral movements)
+## Datasets Used
 
-## Requirements
+### 1) `stock_tweets.csv`
+Contains stock-related tweets and metadata (for example stock symbol/name, date, tweet text).
 
-- Python 3.x
-- Jupyter Notebook
-- Required Python packages:
-  - numpy
-  - pandas
-  - matplotlib
-  - seaborn
-  - tensorflow
-  - scikit-learn
-  - nltk
-  - plotly
-  - tqdm
-  - statsmodels
-  - unicodedata
+### 2) `stock_yfinance_data.csv`
+Contains historical OHLCV market data fetched from Yahoo Finance.
 
-## Installation
+## End-to-End Workflow
 
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/rushibankar3/Stock-market-sentiment-Analysis.git
-   cd Stock-market-sentiment-Analysis
-   ```
+1. Load tweet and market datasets.
+2. Clean and normalize tweet text.
+3. Compute sentiment scores (`pos`, `neu`, `neg`, `compound`) using VADER.
+4. Classify tweets into sentiment labels:
+   - Positive (`compound >= 0.05`)
+   - Negative (`compound <= -0.05`)
+   - Neutral (otherwise)
+5. Aggregate sentiment by stock/date and analyze correlations with market features.
+6. Build and evaluate ML/DL models in the notebook.
+7. Serve interactive inference and exploration through Streamlit.
 
-2. Install required packages:
-   ```bash
-   pip install numpy pandas matplotlib seaborn tensorflow scikit-learn nltk plotly tqdm statsmodels
-   ```
+## Notebook (`stock_prediction.ipynb`)
 
-3. Download NLTK data:
-   ```python
-   import nltk
-   nltk.download('vader_lexicon')
-   ```
+The notebook contains full experimentation and research flow:
 
-## Usage
+- Data loading and profiling
+- Tweet preprocessing
+- Sentiment generation and aggregation
+- Feature engineering with market data
+- Correlation and visualization analysis
+- Model training (classical ML + deep learning experiments)
+- Model evaluation and result interpretation
 
-1. Open the Jupyter notebook:
-   ```bash
-   jupyter notebook stock_prediction.ipynb
-   ```
+## Streamlit App (`streamlit_app.py`)
 
-2. Run the analysis pipeline:
-   - **Data Loading**: Import and explore tweet and stock price datasets
-   - **Sentiment Analysis**: Process tweets with VADER sentiment analyzer
-   - **Time-Based Filtering**: Separate tweets by market hours
-   - **Statistical Aggregation**: Compute sentiment metrics by stock and time period
-   - **Data Integration**: Merge sentiment data with stock performance metrics
-   - **Correlation Analysis**: Generate heatmaps showing sentiment-stock relationships
-   - **Visualization**: Create interactive plots and statistical summaries
+The Streamlit app is designed for quick, interactive sentiment analysis.
 
-## Methodology
+### Main capabilities
 
-### 1. Data Preprocessing
-- Load Twitter data (80K+ tweets) and stock price data
-- Convert timestamps to datetime format with timezone handling
-- Clean and normalize tweet text using Unicode normalization
+- Predict sentiment of any input tweet text
+- Show compound score as a metric
+- Display component-level sentiment bar chart (`positive`, `neutral`, `negative`)
+- Explore dataset samples by stock
+- Visualize sample sentiment distribution with a pie chart
 
-### 2. Sentiment Analysis Pipeline
-- Apply VADER sentiment analysis to extract:
-  - Compound sentiment score (-1 to +1)
-  - Positive, negative, and neutral component scores
-- Process tweets in batches for efficiency
+## Streamlit Screen Working (UI Walkthrough)
 
-### 3. Time-Based Analysis
-- **Pre-market tweets**: Before 5:30 AM EST (sentiment before market open)
-- **Intraday tweets**: 5:30 AM - 12:30 PM EST (during market hours)
-- Aggregate sentiment statistics for each time window
+When you run the app, you will see these screens/sections:
 
-### 4. Feature Engineering
-- Calculate percentage changes in stock prices and volume
-- Create lagged sentiment features (previous day sentiment)
-- Generate statistical measures (mean, min, max, quartiles)
+### 1) Header and Tweet Input Panel
 
-### 5. Correlation Analysis
-- Compute correlations between sentiment metrics and stock performance
-- Visualize relationships using seaborn heatmaps
-- Identify predictive sentiment patterns
+- Title: **Stock Tweet Sentiment Predictor**
+- A text area with default sample tweet
+- **Predict Sentiment** button to trigger inference
 
-## Key Findings
+### 2) Prediction Output Panel
 
-The analysis reveals significant correlations between tweet sentiment and stock market performance, particularly:
-- Pre-market sentiment often predicts next-day price movements
-- Intraday sentiment correlates with same-day trading volume
-- Negative sentiment shows stronger correlations than positive sentiment
-- Different stocks show varying sensitivity to sentiment patterns
+After clicking **Predict Sentiment**:
 
-## Results & Visualizations
+- Predicted label appears (`Positive` / `Neutral` / `Negative`)
+- Compound score is shown as a metric
+- Plotly bar chart displays `positive`, `neutral`, `negative` component scores
 
-The notebook includes:
-- Sentiment distribution plots by stock
-- Time series analysis of sentiment vs. stock prices
-- Correlation heatmaps showing sentiment-stock relationships
-- Statistical summaries and performance metrics
-- Interactive plotly visualizations
+### 3) Rules and Tips Sidebar Panel
 
-## Recent Updates
+- Shows threshold rules used for label mapping
+- Notes that this app performs sentiment scoring (not direct price prediction)
 
-- ✅ Fixed XGBoost class label encoding issues (converted -1,0,1 to 0,1,2)
-- ✅ Resolved data type errors by filtering to numeric columns only
-- ✅ Fixed technical indicator calculations (MACD, EMA, Bollinger Bands)
-- ✅ Added label encoding for machine learning models
-- ✅ Created and saved MinMaxScaler objects for feature scaling
-- ✅ Fixed seaborn import error in correlation analysis
-- ✅ Updated file paths for local execution
-- ✅ Enhanced error handling and data validation
-- ✅ Improved documentation and code comments
+### 4) Dataset Explorer Section
+
+- Stock filter dropdown (`All` + available stock names)
+- Adjustable row preview slider
+- Data table preview
+- Pie chart of label distribution for sampled tweets
+
+## How to Run Locally
+
+### 1) Clone repository
+
+```bash
+git clone https://github.com/rushibankar3/Stock-market-sentiment-Analysis.git
+cd Stock-market-sentiment-Analysis
+```
+
+### 2) Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 3) Download NLTK VADER lexicon (first run)
+
+```python
+import nltk
+nltk.download('vader_lexicon')
+```
+
+### 4) Run Streamlit app
+
+```bash
+streamlit run streamlit_app.py
+```
+
+The app opens in your browser, usually at:
+- `http://localhost:8501`
+
+## Expected Inputs and Outputs
+
+### Input
+- A tweet-like text about a stock or company.
+
+### Output
+- Sentiment label (`Positive`, `Neutral`, `Negative`)
+- Compound sentiment score
+- Component breakdown chart
+- Optional aggregate explorer visuals from dataset samples
+
+## Important Notes
+
+- The Streamlit app uses lexicon-based sentiment analysis (VADER).
+- Sentiment output indicates tone, not guaranteed market direction.
+- Model/scaler artifacts in the repository are for experiments in the notebook pipeline.
+
+## Future Improvements
+
+- Add transformer-based sentiment model for improved context understanding
+- Add model selection toggle in Streamlit (VADER vs ML model)
+- Add backtesting dashboard for sentiment-based signals
+- Add Docker setup for one-command deployment
 
 ## Contributing
 
-Feel free to submit issues, feature requests, or pull requests to improve the analysis.
+Contributions are welcome. You can open an issue or submit a pull request for improvements.
 
 ## License
 
-This project is open source and available under the MIT License.
+This project is open-source under the MIT License.
 
-## Repository
+## Author
 
-[GitHub Repository](https://github.com/rushibankar3/Stock-market-sentiment-Analysis)
+Maintained by [@rushibankar3](https://github.com/rushibankar3)
